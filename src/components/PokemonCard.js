@@ -6,24 +6,27 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { primerLetraMayuscula } from "../utils/primerLetraMayuscula";
+import { typesColors } from "../utils/constants";
+import { capitalize } from "lodash";
 
 export default function PokemonCard(props) {
   const { pokemon } = props;
-  console.log(pokemon);
+  const bgStyles = {
+    backgroundColor: typesColors[pokemon.types[0]],
+    ...styles.bgStyles,
+  };
+
   return (
     <TouchableWithoutFeedback>
       <View style={styles.card}>
         <View style={styles.spacing}>
-          <View style={styles.bg}>
+          <View style={bgStyles}>
             {pokemon.id.length > 6 ? (
               <Text style={styles.id}>BDD</Text>
             ) : (
               <Text style={styles.id}>#{`${pokemon.id}`.padStart(3, 0)}</Text>
             )}
-            <Text style={styles.name}>
-              {primerLetraMayuscula(pokemon.name)}
-            </Text>
+            <Text style={styles.name}>{capitalize(pokemon.name)}</Text>
             <Image source={{ uri: pokemon.img }} style={styles.img} />
           </View>
         </View>
@@ -36,30 +39,34 @@ const styles = StyleSheet.create({
   card: {
     flex: 1,
     height: 140,
-    backgroundColor: "#e9c17d",
-    padding: 5,
-    margin: 10,
-    borderRadius: 15,
   },
   spacing: {
     flex: 1,
     padding: 5,
   },
+  bgStyles: {
+    flex: 1,
+    borderRadius: 15,
+    padding: 10,
+  },
   id: {
-    textAlign: "right",
-    fontWeight: "bold",
-
+    position: "absolute",
+    right: 10,
+    top: 10,
+    color: "#fff",
+    fontSize: 11,
   },
   name: {
-    color:"#fff",
-    fontSize: 15,
+    color: "#fff",
     fontWeight: "bold",
+    fontSize: 15,
+    paddingTop: 10,
   },
   img: {
     position: "absolute",
-    bottom: -80,
-    right: 1,
-    width: 80,
-    height: 80,
+    bottom: 2,
+    right: 2,
+    width: 90,
+    height: 90,
   },
 });
